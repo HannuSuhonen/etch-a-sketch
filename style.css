@@ -1,14 +1,17 @@
 .grid-container {
     width: 600px;
     height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .grid-item
 {
-    width: 100px;
-    height: 100px;
     outline: 1px solid;
-    float: left;
+    flex: 0 0 calc(100% / var(--columns)); /* Dynamic number of columns */
+    aspect-ratio: 1; /* Maintain aspect ratio of 1:1 */
+    min-width: 0; /* Ensure content can shrink */
 }
 
 .change-color{
