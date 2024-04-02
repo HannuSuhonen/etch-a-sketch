@@ -76,19 +76,29 @@ function checkGridToggle(){
 function checkEraser(){
     return eraser.checked;
 }
+eraser.addEventListener("change",(e) => {
+    if(e.target.checked) randomColorToggle.checked = false;
+});
+
+randomColorToggle.addEventListener("change",(e) => {
+    if(e.target.checked) eraser.checked = false;
+});
+
+
 function checkRandomColorToggle(){
     return randomColorToggle.checked;
 }
 
 function paint(element){
     if(checkEraser()){
-        element.classList.remove("change-color")
+        element.style.backgroundColor = "unset";
+
     }else if(checkRandomColorToggle()){
         let randomColor = Math.floor(Math.random()*16777215).toString(16);
         element.style.backgroundColor = `#${randomColor}`;
     }
     else{
-        element.classList.add("change-color")
+        element.style.backgroundColor = "gray";
     }
 }
 
