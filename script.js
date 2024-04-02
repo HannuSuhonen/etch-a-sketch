@@ -1,10 +1,9 @@
 const gridContainer = document.querySelector(".grid-container");
 const slider = document.querySelector("#myRange");
+const eraser = document.querySelector(".eraser");
+const gridSizeText = document.querySelector("p");
 
-let mouseEntered = false;
-let mouseClicked = false;
-
-function createGrid(iterations = 36){
+function createGrid(iterations = 50){
 
     deleteGrid(gridContainer);
     let roundNumber = roundToNearestPerfectSquare(iterations);
@@ -22,16 +21,25 @@ function createGrid(iterations = 36){
     gridItems.forEach(item => {
         item.addEventListener("mouseenter" ,(event) => {
             if(event.buttons == 1 || event.buttons == 3){
-                item.classList.add("change-color")
+                if(checkEraser()){
+                    item.classList.remove("change-color")
+                }else{
+                    item.classList.add("change-color")
+                }
             }
         })
         item.addEventListener("mousedown" ,() => {
-            item.classList.add("change-color")
+            if(checkEraser()){
+                item.classList.remove("change-color")
+            }else{
+                item.classList.add("change-color")
+            }
         })
     });
 
     let columns = Math.sqrt(roundNumber);
     // Set the CSS variable to adjust the number of columns dynamically
+    gridSizeText.textContent = `Grid size: ${columns} * ${columns}`;
     document.documentElement.style.setProperty("--columns", columns);
 }
 
@@ -58,4 +66,8 @@ slider.oninput = function() {
     createGrid(this.value);
 }
 
-createGrid(500);
+function checkEraser(){
+    return eraser.checked;
+}
+
+createGrid();
