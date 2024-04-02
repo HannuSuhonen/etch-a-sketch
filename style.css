@@ -4,14 +4,21 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    outline: 1px solid; 
+
 }
 
 .grid-item
 {
-    outline: 1px solid;
+    /* outline: 1px solid; */
+
     flex: 0 0 calc(100% / var(--columns)); /* Dynamic number of columns */
     aspect-ratio: 1; /* Maintain aspect ratio of 1:1 */
     min-width: 0; /* Ensure content can shrink */
+}
+
+.grid-item-outline{
+    outline: 1px solid;
 }
 
 .change-color{

@@ -1,9 +1,11 @@
 const gridContainer = document.querySelector(".grid-container");
 const slider = document.querySelector("#myRange");
 const eraser = document.querySelector(".eraser");
+const gridToggle = document.querySelector(".gridToggle");
+const randomColorToggle = document.querySelector(".randomColorToggle");
 const gridSizeText = document.querySelector("p");
 
-function createGrid(iterations = 50){
+function createGrid(iterations = 4096){
 
     deleteGrid(gridContainer);
     let roundNumber = roundToNearestPerfectSquare(iterations);
@@ -11,7 +13,7 @@ function createGrid(iterations = 50){
     for(let i = 0; i < roundNumber; i++){
         const gridItem = document.createElement("div");
         gridItem.classList.add("grid-item");
-        
+        if(checkGridToggle()) gridItem.classList.add("grid-item-outline");
         gridContainer.appendChild(gridItem);
     }
 
@@ -21,19 +23,11 @@ function createGrid(iterations = 50){
     gridItems.forEach(item => {
         item.addEventListener("mouseenter" ,(event) => {
             if(event.buttons == 1 || event.buttons == 3){
-                if(checkEraser()){
-                    item.classList.remove("change-color")
-                }else{
-                    item.classList.add("change-color")
-                }
+                paint(item);
             }
         })
         item.addEventListener("mousedown" ,() => {
-            if(checkEraser()){
-                item.classList.remove("change-color")
-            }else{
-                item.classList.add("change-color")
-            }
+           paint(item);
         })
     });
 
@@ -66,8 +60,36 @@ slider.oninput = function() {
     createGrid(this.value);
 }
 
+gridToggle.addEventListener("change",(e) => {
+    let gridItems = document.querySelectorAll(".grid-item")
+    if(e.target.checked){
+        gridItems.forEach((item)=> item.classList.add("grid-item-outline"));
+    }else{
+        gridItems.forEach((item)=> item.classList.remove("grid-item-outline"));
+    }
+})
+
+function checkGridToggle(){
+    return gridToggle.checked;
+}
+
 function checkEraser(){
     return eraser.checked;
+}
+function checkRandomColorToggle(){
+    return randomColorToggle.checked;
+}
+
+function paint(element){
+    if(checkEraser()){
+        element.classList.remove("change-color")
+    }else if(checkRandomColorToggle()){
+        let randomColor = Math.floor(Math.random()*16777215).toString(16);
+        element.style.backgroundColor = `#${randomColor}`;
+    }
+    else{
+        element.classList.add("change-color")
+    }
 }
 
 createGrid();
