@@ -2,6 +2,7 @@ const gridContainer = document.querySelector(".grid-container");
 const slider = document.querySelector("#myRange");
 const eraser = document.querySelector(".eraser");
 const gridToggle = document.querySelector(".gridToggle");
+const resetButton = document.querySelector(".reset");
 const randomColorToggle = document.querySelector(".randomColorToggle");
 const gridSizeText = document.querySelector("p");
 
@@ -68,6 +69,15 @@ gridToggle.addEventListener("change",(e) => {
         gridItems.forEach((item)=> item.classList.remove("grid-item-outline"));
     }
 })
+
+function resetSlider(){
+    slider.value = 4096;
+}
+resetButton.addEventListener("click", () => {
+    gridToggle.checked = true;
+    createGrid();
+    resetSlider();
+});
 
 function checkGridToggle(){
     return gridToggle.checked;
